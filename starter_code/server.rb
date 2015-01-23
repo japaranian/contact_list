@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/reloader'
 require_relative './db/connection'
 require_relative './lib/category'
 require_relative './lib/contact'
@@ -50,7 +51,7 @@ get("/contacts") do
 end
 
 get("/contacts/:id") do
-  Contact.find_by(params[:id]).to_json
+  Contact.find_by(id: params[:id]).to_json
 end
 
 post("/contacts") do
