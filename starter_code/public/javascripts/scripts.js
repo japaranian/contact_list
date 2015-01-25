@@ -1,15 +1,18 @@
 // $(function(){
 
-	//gets all categories
-	function getCategories(){
-		$.ajax({
-			url: '/categories',
-			type: 'GET',
-			dataType: 'json'
-		}).done(function(data){
-			console.log(data);
-		});
-	}
+	//click event on View Contacts
+	$('button').on('click', function(event){
+		var $id = $(event.target).parent().attr('id');
+		getCategory($id);
+	});
+
+	// $submitButton.on('click') function(event){
+	// 	var name = ('input[name="name"]').val();
+	// 	var age = ('input[name="age"]').val();
+	// 	var address = ('input[name="address"]').val();
+	// 	var photo = ('input[name="photo"]').val();
+
+	// }
 
 
 	//get one specific category by ID
@@ -20,45 +23,37 @@
 			dataType: 'json'
 		}).done(function(data){
 			console.log(data);
+			renderCategory(data);
 		});
 	}
 
-
-	//create new category
-	function newCategory(name){
-		$.ajax({
-			url: '/categories',
-			type: 'POST',
-			dataType: 'json',
-			data: {name: name}
-		}).done(function(data){
-			console.log(data);
-		});
-	}
-
-
-	//update category
-	function editCategory(id){
-		$.ajax({
-			url: '/categories/' + id,
-			type: 'PUT',
-			dataType: 'json',
-			data: {id: id}
-		}).done(function(data){
-			console.log(data);
-		});
-	}
-
-
-	//delete category
-	function deleteCategory(id){
-		$.ajax({
-			url: '/categories/' + id,
-			type: 'DELETE',
-			data: {id: id}
-		}).done(function(data){
-			console.log('category destroyed');
-		});
+	//render the specific category to the DOM
+	function renderCategory(data){
+		console.log(data);
+		var $h2 = data.name;
+		var $contactsDiv = $("<div class=contacts></div>");
+		$('body').append($contactsDiv);
+		var $ul = $("<ul></ul>");
+		$contactsDiv.append($ul);
+		$ul.empty();
+		for (var i=0; i < data.contacts; i++){
+			var $img = $("<img src=" + data.contacts[i].picture + ">");
+			var $name = $("<li>" + data.contacts[i].name + "/li>");
+			var $age = $("<li>" + data.contacts[i].age + "</li>");
+			var $address = $("<li>" + data.contacts[i].address + "</li>");
+			var $phone = $("<li>" + data.contact[i].phone_number + "</li>");
+			$ul.append($img, $name, $age, $address, $phone);
+		}
+		var $h3 = $("<h3>Add New Contact</h3>");
+		var $nameInput = $("<input type='text' name='name' placeholder='Name'><br>");
+		var $ageInput = $("<input type='text' name='age' placeholder='Age'><br>");
+		var $addressInput = $("<input type='text' name='address' placeholder='Address'><br>");
+		var $phoneInput = $("<input type='text' name='phone' placeholder='Phone'><br>");
+		var $picInput = $("<input type='text' name='phone' placeholder='Photo'><br>");
+		var $newContact = $("<div class='new-contacts'></div>");
+		var $submitButton = $("<button>Submit</button>");
+		$('body').append($newContact);
+		$newContact.append($h3, $nameInput, $ageInput, $addressInput, $phoneInput, $picInput, $submitButton);
 	}
 
 
@@ -122,9 +117,5 @@
 			console.log('Contact destroyed');
 		});
 	}
-
-	getCategories();
-
-	getContacts();
 
 // });
