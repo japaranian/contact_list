@@ -1,4 +1,4 @@
-// $(function(){
+$(function(){
 
 	//click event on 'View Contacts' Button
 	$('.categories-button').on('click', function(event){
@@ -6,18 +6,30 @@
 		getCategory($id);
 	});
 
+	//on submit on form, gets the user inputs and image from randomuser
 	$('form').on('submit', function(e){
 		e.preventDefault();
-		var $name = $(this).find('input[name="name"]').val();
-		var $age = parseInt($(this).find('input[name="age"]').val());
-		var $address = $(this).find('input[name="address"]').val();
-		var $phone = $(this).find('input[name="phone"]').val();
-		var $photo = $(this).find('input[name="photo"]').val();
-		var $cat_id = parseInt($(this).find('option:selected').attr('id'));
-		debugger
-		newContact( {name: $name, age: $age, address: $address, phone_number: $phone, picture: $photo, category_id: $cat_id} );
-		this.reset();
+		$.ajax({
+			url: 'http://api.randomuser.me//',
+			type: 'GET'
+		}).done(function(data){
+			console.log(data);
+			var $photo = data.results[0].user.picture.thumbnail;
+			var $name = $('form').find('input[name="name"]').val();
+			var $age = parseInt($('form').find('input[name="age"]').val());
+			var $address = $('form').find('input[name="address"]').val();
+			var $phone = $('form').find('input[name="phone"]').val();
+			var $cat_id = parseInt($('form').find('option:selected').attr('id'));
+			newContact( {name: $name, age: $age, address: $address, phone_number: $phone, picture: $photo, category_id: $cat_id} );
+			$('form')[0].reset();
+		});
 	});
+
+	$('ul').on('click', 'button.delete', function(event){
+		var $id = $(this).parent().attr('id');
+		deleteContact($id);
+	});
+
 
 
 	//get one specific category by ID
@@ -34,22 +46,22 @@
 
 	//render the specific category to the DOM
 	function renderCategory(data){
-		$('.contacts-div').empty();
+		$('.contacts').empty();
 		var $h2 = $("<h2>" + data.name + "</h2>");
-		$('.contacts-div').append($h2);
+		$('.contacts').append($h2);
 		for (var i=0; i<data.contacts.length; i++){
-			var $contacts = $("<div class='contacts' id=" + data.contacts[i].id + "></div>");
-			var $ul = $("<ul></ul>");
+			var $contacts = $("<ul id=" + data.contacts[i].id + "></ul>");
+			// var $ul = $("<ul></ul>");
 			var $img = $("<li><img src=" + data.contacts[i].picture + "></li>");
 			var $name = $("<li>" + data.contacts[i].name + "</li>");
 			var $age = $("<li>" + data.contacts[i].age + "</li>");
 			var $address = $("<li>" + data.contacts[i].address + "</li>");
 			var $phone = $("<li>" + data.contacts[i].phone_number + "</li>");
-			var $editButton = $("<button>Edit</button>");
-			var $deleteButton = $("<button>Delete</delete>");
-			$('.contacts-div').append($contacts);
-			$contacts.append($ul);
-			$ul.append($img, $name, $age, $address, $phone, $editButton, $deleteButton);
+			var $editButton = $("<button class='edit'>Edit</button>");
+			var $deleteButton = $("<button class='delete'>Delete</delete>");
+			$('.contacts').append($contacts);
+			// $contacts.append($ul);
+			$contacts.append($img, $name, $age, $address, $phone, $editButton, $deleteButton);
 		}
 	}
 
@@ -64,18 +76,7 @@
 			console.log(data);
 		});
 	}
-	//connecting to random user and getting info
-	function randomUser(){
-		$.ajax({
-			url: 'http://api.randomuser.me//',
-			type: 'GET'
-		}).done(function(data){
-			console.log(data);
-			var $photo = data.results[0].user.picture.medium;
-		});
-	}
 
-	randomUser();
 
 	//create new contact
 	function newContact(attr){
@@ -111,7 +112,8 @@
 			data: {id :id}
 		}).done(function(data){
 			console.log('Contact destroyed');
+			$('ul').find('#' + id).remove();
 		});
 	}
 
-// });
+});
