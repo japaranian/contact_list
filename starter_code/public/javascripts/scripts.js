@@ -1,18 +1,23 @@
 // $(function(){
 
-	//click event on View Contacts
-	$('button').on('click', function(event){
+	//click event on 'View Contacts' Button
+	$('.categories-button').on('click', function(event){
 		var $id = $(event.target).parent().attr('id');
 		getCategory($id);
 	});
 
-	// $submitButton.on('click') function(event){
-	// 	var name = ('input[name="name"]').val();
-	// 	var age = ('input[name="age"]').val();
-	// 	var address = ('input[name="address"]').val();
-	// 	var photo = ('input[name="photo"]').val();
-
-	// }
+	$('form').on('submit', function(e){
+		e.preventDefault();
+		var $name = $(this).find('input[name="name"]').val();
+		var $age = parseInt($(this).find('input[name="age"]').val());
+		var $address = $(this).find('input[name="address"]').val();
+		var $phone = $(this).find('input[name="phone"]').val();
+		var $photo = $(this).find('input[name="photo"]').val();
+		var $cat_id = parseInt($(this).find('option:selected').attr('id'));
+		debugger
+		newContact( {name: $name, age: $age, address: $address, phone_number: $phone, picture: $photo, category_id: $cat_id} );
+		this.reset();
+	});
 
 
 	//get one specific category by ID
@@ -29,43 +34,23 @@
 
 	//render the specific category to the DOM
 	function renderCategory(data){
-		console.log(data);
-		var $h2 = data.name;
-		var $contactsDiv = $("<div class=contacts></div>");
-		$('body').append($contactsDiv);
-		var $ul = $("<ul></ul>");
-		$contactsDiv.append($ul);
-		$ul.empty();
-		for (var i=0; i < data.contacts; i++){
-			var $img = $("<img src=" + data.contacts[i].picture + ">");
-			var $name = $("<li>" + data.contacts[i].name + "/li>");
+		$('.contacts-div').empty();
+		var $h2 = $("<h2>" + data.name + "</h2>");
+		$('.contacts-div').append($h2);
+		for (var i=0; i<data.contacts.length; i++){
+			var $contacts = $("<div class='contacts' id=" + data.contacts[i].id + "></div>");
+			var $ul = $("<ul></ul>");
+			var $img = $("<li><img src=" + data.contacts[i].picture + "></li>");
+			var $name = $("<li>" + data.contacts[i].name + "</li>");
 			var $age = $("<li>" + data.contacts[i].age + "</li>");
 			var $address = $("<li>" + data.contacts[i].address + "</li>");
-			var $phone = $("<li>" + data.contact[i].phone_number + "</li>");
-			$ul.append($img, $name, $age, $address, $phone);
+			var $phone = $("<li>" + data.contacts[i].phone_number + "</li>");
+			var $editButton = $("<button>Edit</button>");
+			var $deleteButton = $("<button>Delete</delete>");
+			$('.contacts-div').append($contacts);
+			$contacts.append($ul);
+			$ul.append($img, $name, $age, $address, $phone, $editButton, $deleteButton);
 		}
-		var $h3 = $("<h3>Add New Contact</h3>");
-		var $nameInput = $("<input type='text' name='name' placeholder='Name'><br>");
-		var $ageInput = $("<input type='text' name='age' placeholder='Age'><br>");
-		var $addressInput = $("<input type='text' name='address' placeholder='Address'><br>");
-		var $phoneInput = $("<input type='text' name='phone' placeholder='Phone'><br>");
-		var $picInput = $("<input type='text' name='phone' placeholder='Photo'><br>");
-		var $newContact = $("<div class='new-contacts'></div>");
-		var $submitButton = $("<button>Submit</button>");
-		$('body').append($newContact);
-		$newContact.append($h3, $nameInput, $ageInput, $addressInput, $phoneInput, $picInput, $submitButton);
-	}
-
-
-	//gets all contacts
-	function getContacts(){
-		$.ajax({
-			url: '/contacts',
-			type: 'GET',
-			dataType: 'json'
-		}).done(function(data){
-			console.log(data);
-		});
 	}
 
 
@@ -79,15 +64,26 @@
 			console.log(data);
 		});
 	}
+	//connecting to random user and getting info
+	function randomUser(){
+		$.ajax({
+			url: 'http://api.randomuser.me//',
+			type: 'GET'
+		}).done(function(data){
+			console.log(data);
+			var $photo = data.results[0].user.picture.medium;
+		});
+	}
 
+	randomUser();
 
 	//create new contact
-	function newContact(name, age, address, phone_number, picture, category_id){
+	function newContact(attr){
 		$.ajax({
 			url: '/contacts',
 			type: 'POST',
 			dataType: 'json',
-			data: {name: name, age: age, address: address, phone_number: phone_number, picture: picture, category_id: category_id}
+			data: attr
 		}).done(function(data){
 			console.log(data);
 		});

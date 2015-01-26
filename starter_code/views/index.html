@@ -9,17 +9,39 @@
 	<div class='categories'>
 		<div id="4">
 			<h2>Aliens</h2>
-			<button>View Contacts</button>
+			<button class='categories-button'>View Contacts</button>
 		</div>
 		<div id="5">
 			<h2>Humans</h2>
-			<button>View Contacts</button>
+			<button class='categories-button'>View Contacts</button>
 		</div>
 		<div id="6">
 			<h2>Robots</h2>
-			<button>View Contacts</button>
+			<button class='categories-button'>View Contacts</button>
 		</div>
 	</div>
+
+	<div class='contacts-div'></div>
+
+	<div class='new-contacts'>
+			<form>
+				<label>Add New Contacts
+					<input type='text' name='name' placeholder='Name'>
+					<input type='text' name='age' placeholder='Age'>
+					<input type='text' name='address' placeholder='Address'>
+					<input type='text' name='phone' placeholder='Phone'>
+					<input type='text' name='photo' placeholder='Photo'>
+					<select>
+						<option id='5'>Human</option>
+						<option id='4'>Alien</option>
+						<option id='6'>Robot</option>
+					</select>
+					<button class='submit'>Submit</button>
+				</label>
+			</form>
+	</div>
+
+
 	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="/javascripts/scripts.js"></script></body>  
