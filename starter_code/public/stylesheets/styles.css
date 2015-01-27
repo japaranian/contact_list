@@ -19,8 +19,8 @@
 .new-contacts {
 	clear: both;
 	border: solid 1px black;
-	width: 10%;
-	height: 200px;
+	width: 15%;
+	height: 120px;
 	margin: 10px;
 	padding: 8px;
 	float: left;
@@ -28,4 +28,13 @@
 
 ul {
 	list-style: none;
+}
+
+#edit-form {
+	border: solid 1px black;
+	width: 150px;
+	height: 150px;
+	padding: 8px;
+	float: left;
+	margin: 10px;
 }

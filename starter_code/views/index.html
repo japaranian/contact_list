@@ -26,13 +26,13 @@
 	</div>
 
 	<div class='new-contacts'>
-			<form>
+			<form class='new'>
 				<label>Add New Contacts
 					<input type='text' name='name' placeholder='Name' required>
 					<input type='text' name='age' placeholder='Age' required>
 					<input type='text' name='address' placeholder='Address' required>
 					<input type='text' name='phone' placeholder='Phone' required>
-					<select required>
+					<select>
 						<option id='cat' selected>Select a category</option>
 						<option id='1'>Human</option>
 						<option id='2'>Alien</option>
@@ -41,6 +41,24 @@
 					<button class='submit'>Submit</button>
 				</label>
 			</form>
+	</div>
+
+	<div id='edit-form'>
+		<form class='edit'>
+			<label>Edit Contact
+			<input type='text' name='edit-name'>
+			<input type='text' name='edit-age'>
+			<input type='text' name='edit-address'>
+			<input type='text' name='edit-phone'>
+			<select>
+				<option id='cat' selected>Select a category</option>
+				<option value='human' id='1'>Human</option>
+				<option value='alien' id='2'>Alien</option>
+				<option value='robot' id='3'>Robot</option>
+			</select>
+			<button class='save'>Save</button>
+			<button class='cancel'>Cancel</button>
+		</form>
 	</div>
 
 

@@ -1,4 +1,8 @@
-$(function(){
+// $(function(){
+
+	$(document).ready(function(){
+		$('#edit-form').hide();
+	});
 
 	//click event on 'View Contacts' Button
 	$('.categories-button').on('click', function(event){
@@ -7,7 +11,7 @@ $(function(){
 	});
 
 	//on submit on form, gets the user inputs and image from randomuser
-	$('form').on('submit', function(e){
+	$('.new').on('submit', function(e){
 		e.preventDefault();
 		$.ajax({
 			url: 'http://api.randomuser.me//',
@@ -15,21 +19,35 @@ $(function(){
 		}).done(function(data){
 			console.log(data);
 			var $photo = data.results[0].user.picture.thumbnail;
-			var $name = $('form').find('input[name="name"]').val();
-			var $age = parseInt($('form').find('input[name="age"]').val());
-			var $address = $('form').find('input[name="address"]').val();
-			var $phone = $('form').find('input[name="phone"]').val();
-			var $cat_id = parseInt($('form').find('option:selected').attr('id'));
+			var $name = $('form.new').find('input[name="name"]').val();
+			var $age = parseInt($('form.new').find('input[name="age"]').val());
+			var $address = $('form.new').find('input[name="address"]').val();
+			var $phone = $('form.new').find('input[name="phone"]').val();
+			var $cat_id = parseInt($('form.new').find('option:selected').attr('id'));
 			newContact( {name: $name, age: $age, address: $address, phone_number: $phone, picture: $photo, category_id: $cat_id} );
-			$('form')[0].reset();
+			$('form.new')[0].reset();
 		});
 	});
 
+
+	//Clicking on Delete Button of Contact
 	$('ul').on('click', 'button.delete', function(event){
 		var $id = $(this).parent().attr('id');
 		deleteContact($id);
 	});
 
+
+	//Clicking on Edit Button of Contact
+	$('ul').on('click', 'button.edit', function(event){
+		$('#edit-form').show();
+		var $id = $(this).parent().attr('id');
+		getContact($id);
+	});
+
+	$('.cancel').on('click', function(e){
+		e.preventDefault();
+		$('#edit-form').hide();
+	});
 
 
 	//get one specific category by ID
@@ -51,7 +69,6 @@ $(function(){
 		$('.contacts').append($h2);
 		for (var i=0; i<data.contacts.length; i++){
 			var $contacts = $("<ul id=" + data.contacts[i].id + "></ul>");
-			// var $ul = $("<ul></ul>");
 			var $img = $("<li><img src=" + data.contacts[i].picture + "></li>");
 			var $name = $("<li>" + data.contacts[i].name + "</li>");
 			var $age = $("<li>" + data.contacts[i].age + "</li>");
@@ -60,7 +77,6 @@ $(function(){
 			var $editButton = $("<button class='edit'>Edit</button>");
 			var $deleteButton = $("<button class='delete'>Delete</delete>");
 			$('.contacts').append($contacts);
-			// $contacts.append($ul);
 			$contacts.append($img, $name, $age, $address, $phone, $editButton, $deleteButton);
 		}
 	}
@@ -74,6 +90,21 @@ $(function(){
 			dataType: 'json'
 		}).done(function(data){
 			console.log(data);
+			$('#edit-form').find('input[name="edit-name"]').val(data.name);
+			$('#edit-form').find('input[name="edit-age"]').val(data.age);
+			$('#edit-form').find('input[name="edit-address"]').val(data.address);
+			$('#edit-form').find('input[name="edit-phone"]').val(data.phone_number);
+
+			$('.save').on('click', function(e){
+				e.preventDefault();
+				var $newName = $('#edit-form').find('input[name="edit-name"]').val();
+				var $newAge = parseInt($('#edit-form').find('input[name="edit-age"]').val());
+				var $newAddress = $('#edit-form').find('input[name="edit-address"]').val();
+				var $newPhone = $('#edit-form').find('input[name="edit-phone"]').val();
+				var $newCategory = parseInt($('#edit-form').find('option:selected').attr('id'));
+				editContact(id, {name: $newName, age: $newAge, address: $newAddress, phone_number: $newPhone, category_id: $newCategory});
+				$('form.edit')[0].reset();
+			});
 		});
 	}
 
@@ -87,19 +118,21 @@ $(function(){
 			data: attr
 		}).done(function(data){
 			console.log(data);
+			getCategory(data.category_id)
 		});
 	}
 
 
 	//update contact
-	function editContact(id){
+	function editContact(id, attr){
 		$.ajax({
 			url: '/contacts/' + id,
 			type: 'PUT',
 			dataType: 'json',
-			data: {id: id}
+			data: attr
 		}).done(function(data){
 			console.log(data);
+			getCategory(data.category_id)
 		});
 	}
 
@@ -116,4 +149,4 @@ $(function(){
 		});
 	}
 
-});
+// });
