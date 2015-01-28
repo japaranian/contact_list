@@ -27,10 +27,10 @@
 		<div class='new-contacts'>
 			<form class='new'>
 				<label>Add New Contacts
-					<input type='text' name='name' placeholder='Name' required>
-					<input type='text' name='age' placeholder='Age' required>
-					<input type='text' name='address' placeholder='Address' required>
-					<input type='text' name='phone' placeholder='Phone' required>
+					<input class='textbox' type='text' name='name' placeholder='Name' required>
+					<input class='textbox' type='text' name='age' placeholder='Age' required>
+					<input class='textbox' type='text' name='address' placeholder='Address' required>
+					<input class='textbox' type='text' name='phone' placeholder='Phone' required>
 					<select required>
 						<option id='cat' selected>Select a category</option>
 						<option id='1'>Human</option>
@@ -44,7 +44,8 @@
 
 		<div class='search'>
 			<label> Search
-			<input type='text' name='search' placeholder='Search'>
+			<input class='textbox' type='text' name='search' placeholder='Search'>
+			<button class='search-button'>Go!</button>
 		</div>
 	</div>
 	
@@ -58,10 +59,10 @@
 	<div id='edit-form'>
 		<form class='edit'>
 			<label>Edit Contact
-			<input type='text' name='edit-name'>
-			<input type='text' name='edit-age'>
-			<input type='text' name='edit-address'>
-			<input type='text' name='edit-phone'>
+			<input class='textbox' type='text' name='edit-name'>
+			<input class='textbox' type='text' name='edit-age'>
+			<input class='textbox' type='text' name='edit-address'>
+			<input class='textbox' type='text' name='edit-phone'>
 			<select required>
 				<option id='cat' selected>Select a category</option>
 				<option value='human' id='1'>Human</option>
