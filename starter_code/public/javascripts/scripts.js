@@ -18,14 +18,14 @@
 			type: 'GET'
 		}).done(function(data){
 			console.log(data);
-			var $photo = data.results[0].user.picture.thumbnail;
+			var $photo = data.results[0].user.picture.medium;
 			var $name = $('form.new').find('input[name="name"]').val();
 			var $age = parseInt($('form.new').find('input[name="age"]').val());
 			var $address = $('form.new').find('input[name="address"]').val();
 			var $phone = $('form.new').find('input[name="phone"]').val();
 			var $cat_id = parseInt($('form.new').find('option:selected').attr('id'));
 			newContact( {name: $name, age: $age, address: $address, phone_number: $phone, picture: $photo, category_id: $cat_id} );
-			$('form.new')[0].reset();
+			$('.new')[0].reset();
 		});
 	});
 
@@ -68,7 +68,7 @@
 		var $h2 = $("<h2>" + data.name + "</h2>");
 		$('.contacts').append($h2);
 		for (var i=0; i<data.contacts.length; i++){
-			var $contacts = $("<ul id=" + data.contacts[i].id + "></ul>");
+			var $contacts = $("<ul class='people' id=" + data.contacts[i].id + "></ul>");
 			var $img = $("<li><img src=" + data.contacts[i].picture + "></li>");
 			var $name = $("<li>" + data.contacts[i].name + "</li>");
 			var $age = $("<li>" + data.contacts[i].age + "</li>");
@@ -103,7 +103,7 @@
 				var $newPhone = $('#edit-form').find('input[name="edit-phone"]').val();
 				var $newCategory = parseInt($('#edit-form').find('option:selected').attr('id'));
 				editContact(id, {name: $newName, age: $newAge, address: $newAddress, phone_number: $newPhone, category_id: $newCategory});
-				$('form.edit')[0].reset();
+				$('#edit-form').hide();
 			});
 		});
 	}
@@ -118,7 +118,7 @@
 			data: attr
 		}).done(function(data){
 			console.log(data);
-			getCategory(data.category_id)
+			getCategory(data.category_id);
 		});
 	}
 
@@ -132,7 +132,7 @@
 			data: attr
 		}).done(function(data){
 			console.log(data);
-			getCategory(data.category_id)
+			getCategory(data.category_id);
 		});
 	}
 

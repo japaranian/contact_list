@@ -6,33 +6,32 @@
   <link rel="stylesheet" href="/stylesheets/styles.css">
 </head>
 <body>
-	<div class='categories'>
-		<div id="2">
-			<h2>Aliens</h2>
-			<button class='categories-button'>View Contacts</button>
-		</div>
-		<div id="1">
-			<h2>Humans</h2>
-			<button class='categories-button'>View Contacts</button>
-		</div>
-		<div id="3">
-			<h2>Robots</h2>
-			<button class='categories-button'>View Contacts</button>
-		</div>
-	</div>
+	<div class='sidebar'>
+		
 
-	<div class='contacts-div'>
-		<ul class='contacts'></ul>
-	</div>
-
-	<div class='new-contacts'>
+		<div class='categories'>
+			<div id="2">
+				<h2>Aliens</h2>
+				<button class='categories-button'>View Contacts</button>
+			</div>
+			<div id="1">
+				<h2>Humans</h2>
+				<button class='categories-button'>View Contacts</button>
+			</div>
+			<div id="3">
+				<h2>Robots</h2>
+				<button class='categories-button'>View Contacts</button>
+			</div>
+		</div>
+	
+		<div class='new-contacts'>
 			<form class='new'>
 				<label>Add New Contacts
 					<input type='text' name='name' placeholder='Name' required>
 					<input type='text' name='age' placeholder='Age' required>
 					<input type='text' name='address' placeholder='Address' required>
 					<input type='text' name='phone' placeholder='Phone' required>
-					<select>
+					<select required>
 						<option id='cat' selected>Select a category</option>
 						<option id='1'>Human</option>
 						<option id='2'>Alien</option>
@@ -41,7 +40,20 @@
 					<button class='submit'>Submit</button>
 				</label>
 			</form>
+		</div>
+
+		<div class='search'>
+			<label> Search
+			<input type='text' name='search' placeholder='Search'>
+		</div>
 	</div>
+	
+
+	<div class='contacts-div'>
+		<ul class='contacts'></ul>
+	</div>
+
+
 
 	<div id='edit-form'>
 		<form class='edit'>
@@ -50,7 +62,7 @@
 			<input type='text' name='edit-age'>
 			<input type='text' name='edit-address'>
 			<input type='text' name='edit-phone'>
-			<select>
+			<select required>
 				<option id='cat' selected>Select a category</option>
 				<option value='human' id='1'>Human</option>
 				<option value='alien' id='2'>Alien</option>
